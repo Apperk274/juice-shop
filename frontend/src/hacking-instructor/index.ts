@@ -18,6 +18,9 @@ import { LoginBenderInstruction } from './challenges/loginBender'
 import { TutorialUnavailableInstruction } from './tutorialUnavailable'
 import { CodingChallengesInstruction } from './challenges/codingChallenges'
 
+const createDOMPurify = require('dompurify');
+const DOMPurify = createDOMPurify(window);
+
 const challengeInstructions: ChallengeInstruction[] = [
   ScoreBoardInstruction,
   LoginAdminInstruction,
@@ -104,7 +107,7 @@ function loadHint (hint: ChallengeHint): HTMLElement {
 
   const textBox = document.createElement('span')
   textBox.style.flexGrow = '2'
-  textBox.setHTML(snarkdown(hint.text))
+  textBox.innerHTML = DOMPurify.sanitize(snarkdown(hint.text))
 
   const cancelButton = document.createElement('button')
   cancelButton.id = 'cancelButton'
